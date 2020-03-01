@@ -71,10 +71,11 @@ def scrape():
     mars_facts
     df=mars_facts[0]
     df.columns = ['fact','value']
-    df=df.set_index(['fact'])
+    #df=df.set_index(['fact'])
     df.head()
-    df.count()
-    scrape.update(df.to_dict())
+    #df.count()
+    mars_table=df.to_html(index=False)
+    scrape["mars_fact_table"]=mars_table
 
 
 
@@ -84,25 +85,29 @@ def scrape():
     mars_hem_url="https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars"
     browser.visit(mars_hem_url)
     sleep(10)
-    mars_hem_html = browser.html
-    soup_hem =bs(mars_hem_html,'html.parser')
+    #mars_hem_html = browser.html
+    #soup_hem =bs(mars_hem_html,'html.parser')
 
-    div_all =soup_hem.find_all('div',class_='description')
+    #div_all =soup_hem.find_all('div',class_='description')
     #print(div_all)
 
     #hemisphere_image_urls=[]
-    i=1
-    for divs in div_all:
+    i=0
+    for i in range(4):
         hem_dic={}
-        hem_dic["title"]=divs.find('a', class_="itemLink product-item").text
-        hem_dic["img_url"]="https://astrogeology.usgs.gov"+ divs.a["href"]
+        links=browser.find_by_tag('h3')
+        hem_dic["title"]=links[i].text
+        links[i].click()
+        sleep(3)
+        html = browser.html
+        soup_hem =bs(html,'html.parser')
+        url_hem= soup_hem.find('img',class_='wide-image')['src']
+
+        hem_dic["img_url"]="https://astrogeology.usgs.gov"+ url_hem
         #print(f" hem_dic ${hem_dic}")
         #hemisphere_image_urls.append(hem_dic)
         scrape["hem"+str(i)]=hem_dic
-        i+=1
-
-
-
+        
 
     ######################## Mars Hemispheres ####################################
     #print("**************************")
