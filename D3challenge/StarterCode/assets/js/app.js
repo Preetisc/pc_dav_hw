@@ -43,7 +43,7 @@ d3.csv("assets/data/data.csv").then(function(stateData){
 //create scales functions
 
 var myXLinearScale = d3.scaleLinear()
-    .domain([8,d3.max(stateData, d=> d.poverty)])
+    .domain([7.5,d3.max(stateData, d=> d.poverty)])
     .range([0,width]);
 
 var myYLinearScale = d3.scaleLinear()
@@ -77,7 +77,7 @@ var circleGroup =chartGroup.selectAll("circle")
     .text(function(d){return d.abbr;});
 
 console.log("I am here****************")
-var elemEnter =chartGroup.selectAll("text")
+var elemEnter =chartGroup.selectAll("null")
     .data(stateData)    
     .enter()
     .append("text")
@@ -109,14 +109,4 @@ chartGroup.append("text")
   });
 
 
-// create a scatter plot that represents each state with circle elements. 
-//state abbreviations in the circles.
-//state abbreviations in the circles.
-//bonus
-//state abbreviations in the circles.
-// additional labels in your scatter plot a click events
-// so that your users can decide which data to display.
-// Animate the transitions for your circles' locations as well as the range of your axes.
-// Animate the transitions for your circles' locations as well as the range of your axes.
-//Hint: Try binding all of the CSV data to your circles. This will let you easily determine their x or y values when you click the labels.
-//Incorporate d3-tip for each circle
+  
