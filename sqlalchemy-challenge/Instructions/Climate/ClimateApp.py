@@ -92,7 +92,11 @@ def date_temp_obs():
 
 
 @app.route("/api/v1.0/dateRange/<start>/<end>")
-def date_range_temp(start,end=None):
+def date_range_temp(start,end):
+    
+    if(end=='' or start==''):
+         return jsonify({"error": "start/end date not provided."}), 404
+
     session = Session(engine)
     
     results = session.query(func.min(Measurement.tobs),func.avg(Measurement.tobs),func.max(Measurement.tobs)).\
